@@ -40,3 +40,4 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/${{ github.repository }}:0.2.3, ghcr.io/${{ github.repository }}:latest
+          
