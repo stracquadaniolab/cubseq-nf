@@ -30,7 +30,7 @@ jobs:
       - name: 'Testing Nextflow pipeline with test profile'
         run: |
           chmod +x bin/*
-          nextflow run . -profile test,ci,docker      
+          nextflow run . -profile test,ci,docker,apple -stub-run
       - name: Push image to GitHub container registry
         if: startsWith(github.event.ref, 'refs/tags')
         uses: docker/build-push-action@v2
