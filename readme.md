@@ -1,6 +1,6 @@
 # cubseq-nf
 
-![](https://img.shields.io/badge/current_version-0.2.0-blue)
+![](https://img.shields.io/badge/current_version-0.2.1-blue)
 ![](https://github.com/stracquadaniolab/cubseq-nf/workflows/build/badge.svg)
 ## Overview
 Comprehensive transcriptome-wide meta-analysis of codon usage using RNA-sequencing.
