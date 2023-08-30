@@ -1,9 +1,45 @@
-name: cubseq-nf
+name: ecoli-rnaseq-nf
 channels:
   - defaults
   - bioconda
   - conda-forge
 dependencies:
-  - git
   - python>=3.8
   - docopt
+  - black
+  - pylint
+  - git
+  - tmux
+  - lftp
+  - wget
+  # - icu
+  - conda-forge::r-base
+  - conda-forge::r-tidyverse
+  - conda-forge::r-dplyr
+  - conda-forge::r-docopt
+  - conda-forge::r-cowplot
+  - conda-forge::r-paletteer
+  - conda-forge::r-ggrepel
+  - conda-forge::r-vcfr
+  - conda-forge::r-circlize
+  - conda-forge::r-stringi # fixed tidyverse package version issue
+  - conda-forge::gsl # needed to install bcftools correctly
+  - conda-forge::matplotlib
+  - conda-forge::tectonic
+  - bioconda::fastp
+  - bioconda::star
+  - bioconda::samtools
+  - bioconda::bcftools
+  - bioconda::subread
+  - bioconda::freebayes
+  - bioconda::salmon
+  - bioconda::gffread
+  - bioconda::bedtools
+  - bioconda::bioconductor-cordon
+  - bioconda::bioconductor-tximport
+  - bioconda::bioconductor-genomicfeatures
+  - bioconda::bioconductor-KEGGREST
+  - bioconda::bioconductor-Biostrings
+  - bioconda::bioconductor-rtracklayer>=1.58.0
+  - bioconda::bioconductor-complexheatmap
+  - bioconda::seqkit
