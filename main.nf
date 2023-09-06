@@ -185,7 +185,7 @@ process QUANTIFY_READS {
 
 process FREEBAYES_CALL_VARIANTS {
 
-    publishDir "${params.resultsDir}/original-vcf/", mode: 'copy', overwrite: true
+    publishDir "${params.resultsDir}/freebayes-vcf/", mode: 'copy', overwrite: true
     
     tag "${run_acc}"
 
@@ -765,74 +765,6 @@ process STRAIN_CU_CAT_PLOT {
 
 }
 
-process COMPUTE_RANK_PRODUCT {
-
-    publishDir "${params.resultsDir}/rank-product/", mode: 'copy', overwrite: true
-
-    input:
-        path(txi_data)
-        path(gtf)
-
-    output:
-        path("real-rp.csv")
-        path("sim-rp.csv")
-        path("summary-rp.csv")
-
-    script:
-    """
-        cubseq-new-rank-product.R \\
-            ${txi_data} \\
-            --gtf ${gtf} \\
-            --permutations ${params.compute_rank_product.permutations} \\
-            --fdr-threshold ${params.compute_rank_product.fdr_threshold} \\
-            --output-real-rp real-rp.csv \\
-            --output-sim-rp sim-rp.csv \\
-            --output-summary-rp summary-rp.csv
-    """
-
-    stub:
-    """
-        touch real-rp.csv
-        touch sim-rp.csv
-        touch summary-rp.csv
-    """
-
-}
-
-process GET_STRAIN_TPM {
-
-    publishDir "${params.resultsDir}/strain-analysis/tpm/", mode: 'copy', overwrite: true
-
-    input:
-        path(txi_data)
-        path(gtf)
-
-    output:
-        path("real-rp.csv")
-        path("sim-rp.csv")
-        path("summary-rp.csv")
-
-    script:
-    """
-        cubseq-new-rank-product.R \\
-            ${txi_data} \\
-            --gtf ${gtf} \\
-            --permutations ${params.compute_rank_product.permutations} \\
-            --fdr-threshold ${params.compute_rank_product.fdr_threshold} \\
-            --output-real-rp real-rp.csv \\
-            --output-sim-rp sim-rp.csv \\
-            --output-summary-rp summary-rp.csv
-    """
-
-    stub:
-    """
-        touch real-rp.csv
-        touch sim-rp.csv
-        touch summary-rp.csv
-    """
-
-}
-
 process STRAIN_HEG_CAT_PLOT {
 
     publishDir "${params.resultsDir}/strain-cat/", mode: 'copy', overwrite: true
@@ -1309,7 +1241,7 @@ process ANNOTATE_VCF_NEW {
 // CU count data
 process SUMMARISE_CODON_COUNTS {
 
-    publishDir "${params.resultsDir}/summarise_codon_counts/", mode: 'copy', overwrite: true
+    publishDir "${params.resultsDir}/summarise-codon-counts/", mode: 'copy', overwrite: true
 
     input:
         path(codon_counts_csv)
@@ -1431,7 +1363,7 @@ workflow {
     SALMON_QUANT(SALMON_INDEX.out, PREPROCESS_READS.out.trimmed_fastq)
 
     // summarise transcript-level abundance estimates to gene level
-    // SUMMARIZE_TO_GENE(GET_METADATA.out, file(params.genome.annotation), SALMON_QUANT.out.collect())
+    SUMMARIZE_TO_GENE(GET_METADATA.out, file(params.genome.annotation), SALMON_QUANT.out.collect())
 
 }
 
