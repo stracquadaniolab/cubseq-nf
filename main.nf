@@ -383,7 +383,7 @@ process SALMON_QUANT {
 
     publishDir "${params.resultsDir}/salmon-quant/", mode: 'copy', overwrite: true
 
-    tag "${run_acc}"
+    tag "${run_acc != null ? run_acc : 'no_tag' }"
 
     input: 
         path(transcriptome_index)
@@ -419,7 +419,7 @@ process SUMMARIZE_TO_GENE {
     input:
         path(metadata_csv)
         path(annotation_gtf)
-        path(quant_dir)
+        path(quant_dir, stageAs: 'quant_dir/quant*.sf')
 
     output:
         path("${params.summarize_to_gene.output}")
@@ -436,7 +436,7 @@ process SUMMARIZE_TO_GENE {
 
     stub:
     """
-        touch ${params.summarize_to_gene.output}
+        mkdir txi-summarized-experiment.rds 
     """
 
 }
