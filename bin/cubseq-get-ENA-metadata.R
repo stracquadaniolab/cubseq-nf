@@ -11,7 +11,7 @@ Options:
     --remove-run=<remove_run>       Remove run by specifying its run accession [default: NULL].
     --max-sra-bytes=<max_sra_bytes> Specify runs to remove if they exceed size of sra_bytes [default: 55000000000].
     --date-min=<date_min>           Set minimum date (YYYY/MM/DD) to filter runs by (inclusive) [default: 1950-01-01].
-    --date-max=<date_max>           Set maximum date (YYYY/MM/DD) to filter runs by (inclusive), uses current date by default [default: FALSE].
+    --date-max=<date_max>           Set maximum date (YYYY/MM/DD) to filter runs by (inclusive), uses current date by default [default: 2100-01-01].
     -h --help                       Show this screen.
     --version                       Show version.
 " -> doc
