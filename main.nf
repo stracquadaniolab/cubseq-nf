@@ -99,6 +99,9 @@ process GENERATE_GENOME_INDEX {
 
     script:
     """
+        # manually make genome-index directory
+        mkdir genome-index
+
         STAR \\
             --runThreadN ${task.cpus} \\
             --runMode genomeGenerate \\
@@ -1338,7 +1341,6 @@ workflow {
     // perform alignment
     GENERATE_GENOME_INDEX(file(params.genome.reference), file(params.genome.annotation))
     ALIGN_READS(GENERATE_GENOME_INDEX.out, PREPROCESS_READS.out.trimmed_fastq)
-    // TODO: add ALIGNMENT_QC process
 
     // count number reads that map to gene in genome annotation file
     QUANTIFY_READS(file(params.genome.annotation), ALIGN_READS.out)
