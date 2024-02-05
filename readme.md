@@ -1,6 +1,6 @@
 # cubseq-nf
 
-![](https://img.shields.io/badge/current_version-1.0.4-blue)
+![](https://img.shields.io/badge/current_version-1.0.5-blue)
 ![](https://github.com/stracquadaniolab/cubseq-nf/workflows/build/badge.svg)
 
 ## What is CUBseq?
