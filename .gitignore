@@ -23,3 +23,4 @@ testdata/merged-vcf
 testdata/metadata
 testdata/codon-counts
 testdata/circos-test
+testdata/genome/pichia

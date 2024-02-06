@@ -32,7 +32,7 @@ dependencies:
   - bioconda::bcftools
   - bioconda::subread
   - bioconda::freebayes
-  - bioconda::salmon
+  - bioconda::salmon>=1.10.1
   - bioconda::gffread
   - bioconda::bedtools
   - bioconda::bioconductor-cordon
