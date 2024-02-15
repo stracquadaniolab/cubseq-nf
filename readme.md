@@ -36,22 +36,32 @@ installed. See instructions on how to [here](https://www.nextflow.io/docs/latest
 ### Install or update the workflow
 
 ```bash
-nextflow pull stracquadaniolab/cubseq-nf
+nextflow pull stracquadaniolab/cubseq-nf -r main
 ```
+
+### Define the configuration file
+A `nextflow.config` configuration file will need to be created where parameters are defined, as specified below in `Configuring CUBseq`. This configuration file will need to be created in the same directory where the pipeline will be run. An example configuration file is provided in [example-nextflow.config](templatefiles/example-nextflow.config).
 
 ### Run the analysis
 
+Assuming the configuration file is set, to run CUBseq, the bare minimum command required is:
 ```bash
-nextflow run stracquadaniolab/cubseq-nf
+nextflow run stracquadaniolab/cubseq-nf -r main -profile singularity -c conf/nextflow.config
 ```
+
+Alternatively, you can define parameters and call custom profiles (examples available on [example-nextflow.config](templatefiles/example-nextflow.config)) directly in the `nextflow run` command:
+```bash
+nextflow run stracquadaniolab/cubseq-nf -r main -profile singularity,cell -c conf/nextflow.config --resultsDir ./results/test-run
+```
+For example, here we call a profile, `cell`, which we defined in our config file (which we used to specify the executor, RAM/CPU requirements and error strategy for each process). We also specify a custom results directory path to save output files to.
 
 ## Configuring CUBseq
 
 To run CUBseq you will need to specify a number of paths for storing 
 results, and provide appropriate parameter options based on the 
-organism being analysed. Required parameters are indicated with an 
-asterisk, the rest of the parameters are optional.
-
+organism being analysed. These parameters need to be defined in a 
+configuration file called `nextflow.config`. Required parameters are 
+indicated with an asterisk, the rest of the parameters are optional.
 
 | Parameter    | Description |
 | :----------- | :------- |
