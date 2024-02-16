@@ -141,6 +141,7 @@ process ALIGN_READS {
             --readFilesCommand zcat \\
             --outFileNamePrefix ${run_acc}. \\
             --outSAMtype BAM SortedByCoordinate \\
+            --outSAMunmapped Within \\
             --alignIntronMax ${params.star.alignIntronMax} \\
             --limitBAMsortRAM ${params.star.limitBAMsortRAM} \\
             --outBAMsortingBinsN ${params.star.outBAMsortingBinsN}
