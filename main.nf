@@ -239,7 +239,8 @@ process BCFTOOLS_FILTER_VCF {
             --threads ${task.cpus} \\
             --atomize ${run_acc}.var.vcf.gz \\
             --output-type z \\
-            --output ${run_acc}.norm.var.vcf.gz
+            --output ${run_acc}.norm.var.vcf.gz \\
+            ${run_acc}.var.vcf.gz
 
         # filter vcf by specified params (e.g. quality score, include only SNPs)
         bcftools filter \\
@@ -426,7 +427,7 @@ process SUMMARIZE_TO_GENE {
         path(quant_dir, stageAs: 'quant_dir/quant*.sf')
 
     output:
-        path("${params.summarize_to_gene.output}")
+        path("txi-summarized-experiment.rds")
 
     script:
     """
@@ -435,7 +436,7 @@ process SUMMARIZE_TO_GENE {
             --gtf ${annotation_gtf} \\
             --quant-dir ${quant_dir} \\
             --counts-from-abundance ${params.summarize_to_gene.counts_from_abundance} \\
-            --output ${params.summarize_to_gene.output}
+            --output txi-summarized-experiment.rds
     """
 
     stub:
@@ -1370,39 +1371,39 @@ workflow {
 
 }
 
-workflow SALMON_REDO {
+// workflow SALMON_REDO {
 
-    // construct file paths using run_accession from metadata file
-    metadata_ch = Channel
-                    .fromPath(params.metadata, checkIfExists: true)
-                    .splitCsv(header: true, sep: '\t')
-                    .multiMap { row -> 
-                        metadata: tuple(row.study_accession, row.sample_accession, row.experiment_accession, row.run_accession, row.fastq1, row.fastq2)
-                        reads: row.run_accession
-                    }
+//     // construct file paths using run_accession from metadata file
+//     metadata_ch = Channel
+//                     .fromPath(params.metadata, checkIfExists: true)
+//                     .splitCsv(header: true, sep: '\t')
+//                     .multiMap { row -> 
+//                         metadata: tuple(row.study_accession, row.sample_accession, row.experiment_accession, row.run_accession, row.fastq1, row.fastq2)
+//                         reads: row.run_accession
+//                     }
 
-    // get sample fastq
-    GET_READS(metadata_ch.metadata)
-    PREPROCESS_READS(GET_READS.out)
+//     // get sample fastq
+//     GET_READS(metadata_ch.metadata)
+//     PREPROCESS_READS(GET_READS.out)
 
-    // generate transcriptome fasta for wildtype and mutated sequences
-    GFFREAD_GET_WT_TRANSCRIPTOME(file(params.genome.reference), file(params.genome.annotation))
+//     // generate transcriptome fasta for wildtype and mutated sequences
+//     GFFREAD_GET_WT_TRANSCRIPTOME(file(params.genome.reference), file(params.genome.annotation))
 
-    // create transcriptome index
-    SALMON_INDEX(GFFREAD_GET_WT_TRANSCRIPTOME.out.transcriptome, file(params.genome.reference))
+//     // create transcriptome index
+//     SALMON_INDEX(GFFREAD_GET_WT_TRANSCRIPTOME.out.transcriptome, file(params.genome.reference))
 
-    // estimate transcript level abundance
-    SALMON_QUANT(SALMON_INDEX.out, PREPROCESS_READS.out.trimmed_fastq)
+//     // estimate transcript level abundance
+//     SALMON_QUANT(SALMON_INDEX.out, PREPROCESS_READS.out.trimmed_fastq)
 
-    // summarise transcript-level abundance estimates to gene level
-    SUMMARIZE_TO_GENE(file(params.metadata), file(params.genome.annotation), SALMON_QUANT.out.collect())
+//     // summarise transcript-level abundance estimates to gene level
+//     SUMMARIZE_TO_GENE(file(params.metadata), file(params.genome.annotation), SALMON_QUANT.out.collect())
 
-}
+// }
 
 workflow CUB_PREPROCESSING {
 
     // summarise transcript-level abundance estimates to gene level
-    // SUMMARIZE_TO_GENE(file(params.metadata), file(params.genome.annotation), file(params.summarize_to_gene.quant.dir))
+    SUMMARIZE_TO_GENE(file(params.metadata), file(params.genome.annotation), file(params.summarize_to_gene.quant.dir))
 
     // rank genes using Fisher transform
     // RANK_GENES(SUMMARIZE_TO_GENE.out, file(params.metadata), file(params.genome.annotation), file(params.gff))
