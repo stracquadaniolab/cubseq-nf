@@ -20,7 +20,7 @@ suppressMessages(library(docopt))
 arguments <- docopt(doc, version = "cubseq-summarize-to-gene.R")
 
 # load required packages
-suppressMessages(library(tidyverse)) # tximport uses readr package if available
+suppressMessages(library(readr)) # tximport uses readr package if available
 suppressMessages(library(tximport))
 suppressMessages(library(GenomicFeatures)) # for converting gtf file into tx2gene object
 

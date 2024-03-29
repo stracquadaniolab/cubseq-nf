@@ -19,7 +19,8 @@ suppressMessages(library(docopt))
 arguments <- docopt(doc, version = "cubseq-fisher-transform.R")
 
 # load packages
-suppressMessages(library(tidyverse))
+suppressMessages(library(readr))
+suppressMessages(library(dplyr))
 suppressMessages(library(rtracklayer))
 
 extract_protein_coding_genes <- function(.gff, .gtf, .tpm) {
@@ -38,7 +39,7 @@ extract_protein_coding_genes <- function(.gff, .gtf, .tpm) {
   # give a final list of 57 RPs (55 RPs plus 2 putative RPs).
   rp_gff <- as.data.frame(.gff) %>%
   filter(., type == "gene") %>%
-  filter(., biotype == "protein_coding") %>%
+  filter(., ifelse("biotype" %in% names(.), biotype == "protein_coding", gene_biotype == "protein_coding")) %>%
   filter(grepl("ribosomal subunit protein", description) | 
            grepl("putative ribosomal protein", description)) %>%
   # filter out any enzymes (e.g. methyltransferases)
