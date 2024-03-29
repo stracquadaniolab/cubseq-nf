@@ -1406,8 +1406,8 @@ workflow CUB_PREPROCESSING {
     SUMMARIZE_TO_GENE(file(params.metadata), file(params.genome.annotation), file(params.summarize_to_gene.quant.dir))
 
     // rank genes using Fisher transform
-    // RANK_GENES(SUMMARIZE_TO_GENE.out, file(params.metadata), file(params.genome.annotation), file(params.gff))
-    RANK_GENES(file(params.txi), file(params.metadata), file(params.genome.annotation), file(params.gff))
+    RANK_GENES(SUMMARIZE_TO_GENE.out, file(params.metadata), file(params.genome.annotation), file(params.gff))
+    // RANK_GENES(file(params.txi), file(params.metadata), file(params.genome.annotation), file(params.gff))
 
     // filter FASTA files for significantly highly and lowly expressed genes
     GET_HEG_LEG_FASTA(file(params.metadata), file(params.genome.annotation), file(params.mut_fasta), RANK_GENES.out.heg_scores, RANK_GENES.out.leg_scores)
